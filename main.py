@@ -16,7 +16,7 @@ def main():
             break
         else:
             print("Title not found!")
-    print(count_words(content))
+    print_stats(content,book_title)
 
 def get_files_from_dir(dir_path):
     items = os.listdir(dir_path)
@@ -31,8 +31,25 @@ def get_files_from_dir(dir_path):
 def read_book(path):
     with open(path) as b:
         return b.read()
+def print_stats(text, title="book"):
+    msg = []
+    word_count = count_words(text)
+    char_count = count_chars(text)
+    msg.append(f"{title} has {word_count} words in total:\n")
+    msg.append("character counts: \n")
+    for item in char_count:
+        if char_count[item] == 1:
+            msg.append(f"{item} appeared in {title} {char_count[item]} time\n")
+        else:
+            msg.append(f"{item} appeared in {title} {char_count[item]} times\n")
+    msg = "".join(msg)
+    print(msg)
 def count_words(text):
     words = text.split()
     return len(words)
-
+def count_chars(text):
+    counts = {}
+    for char in "".join(text.lower().split()):
+        counts[char] = 1 + counts.get(char,0)
+    return counts
 main()
