@@ -16,7 +16,7 @@ def main():
             break
         else:
             print("Title not found!")
-    print_stats(content,book_title)
+    print_report(content,book_title)
 
 def get_files_from_dir(dir_path):
     items = os.listdir(dir_path)
@@ -31,17 +31,25 @@ def get_files_from_dir(dir_path):
 def read_book(path):
     with open(path) as b:
         return b.read()
-def print_stats(text, title="book"):
+def print_report(text, title="book"):
     msg = []
     word_count = count_words(text)
     char_count = count_chars(text)
-    msg.append(f"{title} has {word_count} words in total:\n")
+    msg.append(f"--- Begin report of {title} ---\n")
+    if word_count == 1:
+        msg.append(f"{word_count} word was ")
+    else:
+        msg.append(f"{word_count} words were ")
+    msg.append(f"found in the document \'{title}\'\n\n")
     msg.append("character counts: \n")
     for item in char_count:
-        if char_count[item] == 1:
-            msg.append(f"{item} appeared in {title} {char_count[item]} time\n")
-        else:
-            msg.append(f"{item} appeared in {title} {char_count[item]} times\n")
+        if ord('a') <= ord(item) <= ord('z'): 
+            msg.append(f"The character \'{item}\' appeared in {title} {char_count[item]} ")
+            if char_count[item] != 1:
+                msg.append("times\n")
+            else:
+                msg.append("time\n")
+    msg.append("--- End report ---\n")
     msg = "".join(msg)
     print(msg)
 def count_words(text):
