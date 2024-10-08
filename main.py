@@ -9,14 +9,15 @@ def main():
     books_list = os.listdir("./books")
     books = {}
     for file in books_list:
-        name,extension = os.path.splitext(file)
-        if file not in books:
-            books[name] = {"ext":extension}
-        print(f"{name}")
-    book_name = input("Enter title of book:  ") 
+        if os.path.isfile(f"./books/{file}"):
+            name,extension = os.path.splitext(file)
+            if name not in books:
+                books[name] = {"ext":extension}
+            print(f"{name[0].upper()}{name[1:].lower()}")
+    book_name = input("Enter title of book:  ").lower()
     contents = ""
     file_extension = books[book_name]["ext"]
-    if book_name == "frankenstein":
+    if book_name in books:
         with open(f"books/{book_name}{file_extension}") as b:
             contents = b.read()
         print(contents)
