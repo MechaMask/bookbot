@@ -31,21 +31,32 @@ def get_files_from_dir(dir_path):
 def read_book(path):
     with open(path) as b:
         return b.read()
+def sort_dict(dic):
+    def dict_key(d):
+        return d["num"]
+    array = []
+    for item in dic:
+        array.append({"char" : item, "num" : dic[item]})
+    array.sort(reverse=True,key=dict_key)
+    return array
+
 def print_report(text, title="book"):
     msg = []
     word_count = count_words(text)
-    char_count = count_chars(text)
+    char_count = sort_dict(count_chars(text))
     msg.append(f"--- Begin report of {title} ---\n")
     if word_count == 1:
         msg.append(f"{word_count} word was ")
     else:
         msg.append(f"{word_count} words were ")
     msg.append(f"found in the document \'{title}\'\n\n")
-    msg.append("character counts: \n")
+    msg.append("Number of characters found: \n")
     for item in char_count:
-        if ord('a') <= ord(item) <= ord('z'): 
-            msg.append(f"The character \'{item}\' appeared in {title} {char_count[item]} ")
-            if char_count[item] != 1:
+        letter = item["char"]
+        if ord('a') <= ord(letter) <= ord('z'):
+            number = item["num"]
+            msg.append(f"The character \'{letter}\' appeared {number} ")
+            if number != 1:
                 msg.append("times\n")
             else:
                 msg.append("time\n")
