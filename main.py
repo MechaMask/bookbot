@@ -1,20 +1,5 @@
 import os
 
-def get_files_from_dir(dir_path):
-    items = os.listdir(dir_path)
-    books = {}
-    for file in items:
-        if os.path.isfile(f"{dir_path}/{file}"):
-            name,extension = os.path.splitext(file)
-            if name not in books:
-                books[name] = {"ext":extension}
-            print(f"  - {name[0].upper()}{name[1:].lower()}")
-    return books
-
-def read_book(path):
-    with open(path) as b:
-        return b.read()
-
 def main():
     print("Welcome to Book Bot!!")
     print("======================")
@@ -31,5 +16,23 @@ def main():
             break
         else:
             print("Title not found!")
-    print(content)
+    print(count_words(content))
+
+def get_files_from_dir(dir_path):
+    items = os.listdir(dir_path)
+    books = {}
+    for file in items:
+        if os.path.isfile(f"{dir_path}/{file}"):
+            name,extension = os.path.splitext(file)
+            if name not in books:
+                books[name] = {"ext":extension}
+            print(f"  - {name[0].upper()}{name[1:].lower()}")
+    return books
+def read_book(path):
+    with open(path) as b:
+        return b.read()
+def count_words(text):
+    words = text.split()
+    return len(words)
+
 main()
